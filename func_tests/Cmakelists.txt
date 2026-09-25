@@ -1,0 +1,16 @@
+set(CMAKE_PREFIX_PATH "C:/googletest/install")
+find_package(GTest REQUIRED)
+
+add_executable(func_tests
+    test_shared_ptr.cpp
+    test_uniq_ptr.cpp
+)
+
+target_link_libraries(func_tests
+    PRIVATE
+        smart_pointers
+        GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(func_tests)
