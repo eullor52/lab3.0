@@ -139,8 +139,6 @@ SharedPtr<T>::operator bool() const {
 	return ptr != nullptr;
 }
 
-
-// Массивы
 template <typename T>
 class SharedPtr<T[]> {
 private:

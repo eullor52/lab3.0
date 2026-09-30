@@ -97,19 +97,19 @@ void print_row(std::ostream& os, size_t n, const char* name, const BenchResult& 
        << overhead << "\n";
 }
 
-void csv_row(std::ofstream& csv, size_t n, const char* name, const BenchResult& r, long overhead) {
-    csv << n << "," << name << "," << r.create_ms << "," << r.copy_ms << ","
-        << r.delete_ms << "," << r.total_ms() << "," << overhead << "\n";
-}
+// void csv_row(std::ofstream& csv, size_t n, const char* name, const BenchResult& r, long overhead) {
+//     csv << n << "," << name << "," << r.create_ms << "," << r.copy_ms << ","
+//         << r.delete_ms << "," << r.total_ms() << "," << overhead << "\n";
+// }
 
 int main() {
     std::vector<size_t> sizes = {1'000, 10'000, 100'000, 1'000'000};
 
-    std::ofstream csv("benchmark_uniq_ptr.csv");
-    csv << "n,type,create_ms,copy_ms,delete_ms,total_ms,overhead_bytes\n";
-    const long overhead_raw = 0;
-    const long overhead_uniq = static_cast<long>(sizeof(UniqPtr<int>));
-    const long overhead_std_uniq = static_cast<long>(sizeof(std::unique_ptr<int>));
+    // std::ofstream csv("benchmark_uniq_ptr.csv");
+    // csv << "n,type,create_ms,copy_ms,delete_ms,total_ms,overhead_bytes\n";
+    long overhead_raw = 0;
+    long overhead_uniq = static_cast<long>(sizeof(UniqPtr<int>));
+    long overhead_std_uniq = static_cast<long>(sizeof(std::unique_ptr<int>));
 
     auto print_header = [&]() {
         std::cout << std::left
@@ -133,12 +133,12 @@ int main() {
         print_row(std::cout, n, "Наш UniquePtr", uniq, overhead_uniq);
         print_row(std::cout, n, "STL unique_ptr", std_uniq, overhead_std_uniq);
 
-        csv_row(csv, n, "raw", raw, overhead_raw);
-        csv_row(csv, n, "UniqPtr", uniq, overhead_uniq);
-        csv_row(csv, n, "std::unique_ptr", std_uniq, overhead_std_uniq);
+        // csv_row(csv, n, "raw", raw, overhead_raw);
+        // csv_row(csv, n, "UniqPtr", uniq, overhead_uniq);
+        // csv_row(csv, n, "std::unique_ptr", std_uniq, overhead_std_uniq);
     }
 
-    std::cout << "\nCSV сохранён в benchmark_uniq_ptr.csv (для построения графика).\n";
+    // std::cout << "\nCSV сохранён в benchmark_uniq_ptr.csv (для построения графика).\n";
     std::cout << "Примечание: у UniqPtr/unique_ptr нет копирующего конструктора, поэтому в "
                  "колонке \"Копирование\" измеряется перенос владения (move) в другой вектор.\n";
     return 0;

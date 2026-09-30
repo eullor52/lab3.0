@@ -97,19 +97,19 @@ void print_row(std::ostream& os, size_t n, const char* name, const BenchResult& 
        << overhead << "\n";
 }
 
-void csv_row(std::ofstream& csv, size_t n, const char* name, const BenchResult& r, long overhead) {
-    csv << n << "," << name << "," << r.create_ms << "," << r.copy_ms << ","
-        << r.delete_ms << "," << r.total_ms() << "," << overhead << "\n";
-}
+// void csv_row(std::ofstream& csv, size_t n, const char* name, const BenchResult& r, long overhead) {
+//     csv << n << "," << name << "," << r.create_ms << "," << r.copy_ms << ","
+//         << r.delete_ms << "," << r.total_ms() << "," << overhead << "\n";
+// }
 
 int main() {
     std::vector<size_t> sizes = {1'000, 10'000, 100'000, 1'000'000};
 
-    std::ofstream csv("benchmark_shared_ptr.csv");
-    csv << "n,type,create_ms,copy_ms,delete_ms,total_ms,overhead_bytes\n";
-    const long overhead_raw = 0;
-    const long overhead_shared = static_cast<long>(sizeof(SharedPtr<int>));
-    const long overhead_std_shared =
+    // std::ofstream csv("benchmark_shared_ptr.csv");
+    // csv << "n,type,create_ms,copy_ms,delete_ms,total_ms,overhead_bytes\n";
+    long overhead_raw = 0;
+    long overhead_shared = static_cast<long>(sizeof(SharedPtr<int>));
+    long overhead_std_shared =
         static_cast<long>(sizeof(std::shared_ptr<int>) + 2 * sizeof(size_t));
 
     std::cout << std::left
@@ -131,11 +131,11 @@ int main() {
         print_row(std::cout, n, "Наш SharedPtr", shared, overhead_shared);
         print_row(std::cout, n, "STL shared_ptr", std_shared, overhead_std_shared);
 
-        csv_row(csv, n, "raw", raw, overhead_raw);
-        csv_row(csv, n, "SharedPtr", shared, overhead_shared);
-        csv_row(csv, n, "std::shared_ptr", std_shared, overhead_std_shared);
+        // csv_row(csv, n, "raw", raw, overhead_raw);
+        // csv_row(csv, n, "SharedPtr", shared, overhead_shared);
+        // csv_row(csv, n, "std::shared_ptr", std_shared, overhead_std_shared);
     }
 
-    std::cout << "\nCSV сохранён в benchmark_shared_ptr.csv (для построения графика).\n";
+    // std::cout << "\nCSV сохранён в benchmark_shared_ptr.csv (для построения графика).\n";
     return 0;
 }
